@@ -1,0 +1,2 @@
+# Technical Task Hamilton Capital
+ 
