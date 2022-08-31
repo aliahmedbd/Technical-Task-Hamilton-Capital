@@ -18,8 +18,19 @@ android {
 
     buildTypes {
         release {
+            buildConfigField "String", "BASE_URL", '"https://v6.exchangerate-api.com/v6/"'
+            buildConfigField "String", "API_KEY", '"47fc90a89c77aa155cc5cca5"'
+
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            buildConfigField "String", "BASE_URL", '"https://v6.exchangerate-api.com/v6/"'
+            buildConfigField "String", "API_KEY", '"47fc90a89c77aa155cc5cca5"'
+        }
+        stagging {
+            buildConfigField "String", "BASE_URL", '"https://v6.exchangerate-api.com/v6/"'
+            buildConfigField "String", "API_KEY", '"47fc90a89c77aa155cc5cca5"'
         }
     }
     compileOptions {
