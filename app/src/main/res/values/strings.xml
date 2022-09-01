@@ -7,4 +7,6 @@
     <string name="select_currency">Select currency</string>
     <string name="amount">Amount</string>
     <string name="currencies">Currencies</string>
+    <string name="precedes">precedes</string>
+    <string name="convert">Convert</string>
 </resources>

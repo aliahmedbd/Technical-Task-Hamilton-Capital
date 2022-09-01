@@ -4,6 +4,7 @@ import android.content.Context
 import com.hamiltoncapital.hamiltonpay.network.APIClient
 import com.hamiltoncapital.hamiltonpay.network.APIService
 import com.hamiltoncapital.hamiltonpay.repository.DataRepository
+import com.hamiltoncapital.hamiltonpay.viewmodel.CalculateAmountViewModel
 import com.hamiltoncapital.hamiltonpay.viewmodel.CurrenciesViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel

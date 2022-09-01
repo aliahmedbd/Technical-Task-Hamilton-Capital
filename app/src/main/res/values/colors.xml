@@ -9,4 +9,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="backColor">#AAAAAA</color>
     <color name="buttonColor">#E95A67</color>
+    <color name="secondaryBlack">#666666</color>
 </resources>

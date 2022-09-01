@@ -1,5 +1,6 @@
 package com.hamiltoncapital.hamiltonpay.view
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
@@ -45,6 +46,11 @@ class MainActivity : AppCompatActivity() {
                 spinner.dismiss()
             }
             spinner.show(supportFragmentManager, "spinner")
+        }
+
+        binding.btnCalculate.setOnClickListener {
+            val intent = Intent(this, CalculateAmountActivity::class.java)
+            startActivity(intent)
         }
     }
 
