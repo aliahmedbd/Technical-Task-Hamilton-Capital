@@ -1,5 +1,6 @@
 package com.hamiltoncapital.hamiltonpay.view
 
+import android.R
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
@@ -8,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.hamiltoncapital.hamiltonpay.databinding.ActivityCalculateAmountBinding
 import com.hamiltoncapital.hamiltonpay.viewmodel.CalculateAmountViewModel
+import java.io.InputStream
 import kotlin.properties.Delegates
 
 class CalculateAmountActivity : AppCompatActivity() {
@@ -31,7 +33,7 @@ class CalculateAmountActivity : AppCompatActivity() {
     private fun initialize() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
-
+        assets.open("config.json")
         fromCurrency = intent.getStringExtra(FROM_CURRENCY).toString()
         toCurrency = intent.getStringExtra(TO_CURRENCY).toString()
         amount = intent.getDoubleExtra(AMOUNT, 0.0)
@@ -50,7 +52,6 @@ class CalculateAmountActivity : AppCompatActivity() {
                     binding.txtTimer.text = "$it sec left"
                 }
             }
-
         }
 
         binding.btnConvert.setOnClickListener {

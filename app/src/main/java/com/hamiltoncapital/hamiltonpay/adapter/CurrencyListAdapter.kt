@@ -30,7 +30,7 @@ class CurrencyListAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bindItems(currenciesMap.keys.elementAt(position))
         holder.itemView.setOnClickListener {
-            onItemClick?.let { it1 -> it1(position) }
+            onItemClick(position)
         }
     }
 
