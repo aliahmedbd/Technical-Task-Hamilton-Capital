@@ -14,6 +14,7 @@ Here are some Screenshots of the application:
 3. Transaction time limit with 30 sec timer
 4. Successfull transaction
 
+APK link: https://github.com/aliahmedbd/Technical-Task-Hamilton-Capital/blob/main/app-debug.apk
 
 ### Used Technologies
 
