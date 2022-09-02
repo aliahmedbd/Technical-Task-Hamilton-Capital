@@ -10,13 +10,13 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import retrofit2.Response
 
-class CurrenciesViewModel(private var dataRepository: DataRepository) : ViewModel() {
+class CurrenciesViewModel(private var dataRepository: DataRepository?) : ViewModel() {
     val latestCurrencyConversion =
         MutableStateFlow<ResponseModel<Response<BaseResponse>>>(ResponseModel.Idle("Idle state"))
 
     suspend fun getLatestCurrencies() {
         latestCurrencyConversion.emit(ResponseModel.Loading())
-        dataRepository.getNewsFromNetwork()?.collect {
+        dataRepository?.getNewsFromNetwork()?.collect {
             viewModelScope.launch {
                 if (it.isSuccessful)
                     latestCurrencyConversion.emit(ResponseModel.Success(it))
