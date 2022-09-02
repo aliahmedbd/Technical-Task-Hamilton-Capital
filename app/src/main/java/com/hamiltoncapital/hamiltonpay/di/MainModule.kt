@@ -14,6 +14,7 @@ import org.koin.dsl.module
 val appModule = module {
     single(named("data_repo")) { DataRepository(NetworkModule(androidContext())) }
     viewModel { CurrenciesViewModel(get(named("data_repo"))) }
+    single(named("context")) { androidContext() }
 }
 
 class NetworkModule(val context: Context) {

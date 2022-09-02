@@ -39,6 +39,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun clickListener() {
         binding.txtFromCurrency.setOnClickListener {
+
             spinner = SpinnerBottomSheet.newInstance(currencies = currenciesMap) {
                 binding.txtFromCurrency.text = it.currencyName
                 fromCurrenciesRate = it.value
@@ -110,6 +111,7 @@ class MainActivity : AppCompatActivity() {
                                 conversionRate?.keySet()
                                     ?.forEach { it1 -> put(it1, conversionRate[it1]) }
                             }
+                            currenciesMap.entries.removeIf { currenciesMap.size > viewModel.getConfigCurrencySize() }
                         }
                     }
                 }

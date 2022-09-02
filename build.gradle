@@ -2,7 +2,7 @@
 buildscript {
     ext{
         koin_version = "3.2.0"
-        gsonVersion = '2.9.0'
+        gsonVersion = '2.8.1'
         lifecycleVersion = '2.2.0'
         retrofitVersion = '2.9.0'
         okhttpLoggingVersion = '4.9.3'
