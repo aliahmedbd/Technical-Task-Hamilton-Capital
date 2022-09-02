@@ -106,6 +106,4 @@ class CalculateAmountActivity : AppCompatActivity() {
         onBackPressed()
         return true
     }
-
-
 }
