@@ -1,19 +1,17 @@
 package com.hamiltoncapital.hamiltonpay.view
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
-import com.hamiltoncapital.hamiltonpay.R
 import com.hamiltoncapital.hamiltonpay.databinding.ActivityMainBinding
 import com.hamiltoncapital.hamiltonpay.network.ResponseModel
 import com.hamiltoncapital.hamiltonpay.viewmodel.CurrenciesViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import kotlin.properties.Delegates
 
 const val FROM_CURRENCY = "FROM_CURRENCY"
 const val TO_CURRENCY = "TO_CURRENCY"
@@ -90,14 +88,16 @@ class MainActivity : AppCompatActivity() {
                         Toast.makeText(this@MainActivity, it.message, Toast.LENGTH_SHORT).show()
                     }
                     is ResponseModel.Idle -> {
-                        Toast.makeText(this@MainActivity, "Idle State", Toast.LENGTH_SHORT)
+                        Toast.makeText(this@MainActivity, "API call : Idle State", Toast.LENGTH_SHORT)
                             .show()
                     }
                     is ResponseModel.Loading -> {
-                        Toast.makeText(this@MainActivity, "Loading...", Toast.LENGTH_SHORT)
+                        Toast.makeText(this@MainActivity, "API call : Loading...", Toast.LENGTH_SHORT)
                             .show()
                     }
                     is ResponseModel.Success -> {
+                        Toast.makeText(this@MainActivity, "API call : Success!", Toast.LENGTH_SHORT)
+                            .show()
                         if (it.data?.body()?.conversionRates?.isJsonNull == true) {
                             Toast.makeText(
                                 this@MainActivity,
@@ -105,7 +105,7 @@ class MainActivity : AppCompatActivity() {
                                 Toast.LENGTH_SHORT
                             ).show()
                         } else {
-                            val conversionRate = it.data?.body()?.conversionRates;
+                            val conversionRate = it.data?.body()?.conversionRates
                             currenciesMap = mutableMapOf<String, Any>().apply {
                                 conversionRate?.keySet()
                                     ?.forEach { it1 -> put(it1, conversionRate[it1]) }
