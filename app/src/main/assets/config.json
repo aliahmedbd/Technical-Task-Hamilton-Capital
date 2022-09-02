@@ -1,3 +1,4 @@
 {
-  "timeout" : 50
+  "timeout" : 50,
+  "currencies" : 50
 }
