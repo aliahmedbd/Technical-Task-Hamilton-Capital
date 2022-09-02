@@ -12,6 +12,11 @@ import kotlin.properties.Delegates
 
 class CalculateAmountActivity : AppCompatActivity() {
 
+    private lateinit var fromCurrency: String
+    private lateinit var toCurrency: String
+    private var amount: Double = 0.0
+    private var convertedAmount: Double = 0.0
+
     private lateinit var binding: ActivityCalculateAmountBinding
     private lateinit var viewModel: CalculateAmountViewModel
     private var timer by Delegates.notNull<Long>()
@@ -24,6 +29,16 @@ class CalculateAmountActivity : AppCompatActivity() {
     }
 
     private fun initialize() {
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
+
+        fromCurrency = intent.getStringExtra(FROM_CURRENCY).toString()
+        toCurrency = intent.getStringExtra(TO_CURRENCY).toString()
+        amount = intent.getDoubleExtra(AMOUNT, 0.0)
+        convertedAmount = intent.getDoubleExtra(CONVERTED_AMOUNT, 0.0)
+
+        binding.txtFromCurrencies.text = "$amount ${fromCurrency.uppercase()}"
+        binding.txtToCurrencies.text = "$convertedAmount ${toCurrency.uppercase()}"
         viewModel = ViewModelProvider(this)[CalculateAmountViewModel::class.java]
         viewModel.getElapsedTime()?.observe(this) {
             it?.let {
@@ -59,7 +74,7 @@ class CalculateAmountActivity : AppCompatActivity() {
     private fun showApprovalDialog() {
         val alert: AlertDialog.Builder =
             AlertDialog.Builder(this)
-        alert.setMessage("You are about to get 178 USD for 150 GBP. Do you approve this transaction?")
+        alert.setMessage("You are about to get $amount ${fromCurrency.uppercase()} for $convertedAmount ${toCurrency.uppercase()}. Do you approve this transaction?")
         alert.setTitle("Approval Required")
         alert.setPositiveButton(
             "Approve"
@@ -78,7 +93,17 @@ class CalculateAmountActivity : AppCompatActivity() {
 
     private fun callTransactionActivity() {
         val intent = Intent(this, TransactionStatusActivity::class.java)
+        intent.putExtra(FROM_CURRENCY, fromCurrency)
+        intent.putExtra(TO_CURRENCY, toCurrency)
+        intent.putExtra(AMOUNT, amount)
+        intent.putExtra(CONVERTED_AMOUNT, convertedAmount)
         startActivity(intent)
+        finish()
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
     }
 
 

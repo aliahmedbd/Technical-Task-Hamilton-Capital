@@ -13,6 +13,12 @@ import com.hamiltoncapital.hamiltonpay.viewmodel.CurrenciesViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import kotlin.properties.Delegates
+
+const val FROM_CURRENCY = "FROM_CURRENCY"
+const val TO_CURRENCY = "TO_CURRENCY"
+const val AMOUNT = "AMOUNT"
+const val CONVERTED_AMOUNT = "CONVERTED_AMOUNT"
 
 class MainActivity : AppCompatActivity() {
 
@@ -20,11 +26,15 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var currenciesMap: MutableMap<String, Any>
     private lateinit var spinner: SpinnerBottomSheet
+    private var fromCurrenciesRate: Double = 0.0
+    private var toCurrenciesRate: Double = 0.0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
         clickListener()
         getLatestCurrencies()
     }
@@ -32,8 +42,8 @@ class MainActivity : AppCompatActivity() {
     private fun clickListener() {
         binding.txtFromCurrency.setOnClickListener {
             spinner = SpinnerBottomSheet.newInstance(currencies = currenciesMap) {
-                Toast.makeText(this, "Clicked on item", Toast.LENGTH_LONG).show()
                 binding.txtFromCurrency.text = it.currencyName
+                fromCurrenciesRate = it.value
                 spinner.dismiss()
             }
             spinner.show(supportFragmentManager, "spinner")
@@ -41,16 +51,34 @@ class MainActivity : AppCompatActivity() {
 
         binding.txtToCurrency.setOnClickListener {
             spinner = SpinnerBottomSheet.newInstance(currencies = currenciesMap) {
-                Toast.makeText(this, "Clicked on item", Toast.LENGTH_LONG).show()
                 binding.txtToCurrency.text = it.currencyName
+                toCurrenciesRate = it.value
                 spinner.dismiss()
             }
             spinner.show(supportFragmentManager, "spinner")
         }
 
         binding.btnCalculate.setOnClickListener {
-            val intent = Intent(this, CalculateAmountActivity::class.java)
-            startActivity(intent)
+            if (fromCurrenciesRate == 0.0 || toCurrenciesRate == 0.0) {
+                Toast.makeText(this, "Please select currencies!", Toast.LENGTH_LONG).show()
+            } else if (binding.edtAmount.text.toString().isNotEmpty()) {
+                val fromCurrency = binding.txtFromCurrency.text.toString()
+                val toCurrency = binding.txtToCurrency.text.toString()
+                val amount = binding.edtAmount.text.toString().toDouble()
+                val convertedAmount = viewModel.calculateConvertedCurrencies(
+                    fromCurrenciesRate,
+                    toCurrenciesRate,
+                    amount
+                )
+                val intent = Intent(this, CalculateAmountActivity::class.java)
+                intent.putExtra(FROM_CURRENCY, fromCurrency)
+                intent.putExtra(TO_CURRENCY, toCurrency)
+                intent.putExtra(AMOUNT, amount)
+                intent.putExtra(CONVERTED_AMOUNT, convertedAmount)
+                startActivity(intent)
+            } else {
+                Toast.makeText(this, "Invalid Amount!", Toast.LENGTH_LONG).show()
+            }
         }
     }
 
@@ -91,5 +119,10 @@ class MainActivity : AppCompatActivity() {
         viewModel.viewModelScope.launch {
             viewModel.getLatestCurrencies()
         }
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
     }
 }
